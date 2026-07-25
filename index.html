@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PRO STREAMER V3 - Official Download Page</title>
     
-    <!-- 🚀 AUTO-REDIRECT TO APP SCRIPT -->
+    <!-- 🚀 SMART ANDROID INTENT SCRIPT (No Blank Screen) -->
     <script>
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
             const videoId = urlParams.get('video');
             
             if (videoId) {
-                // Background me direct app trigger launch karein
-                window.location.href = "prostreamer://watch?video=" + videoId;
+                // Android Intent URL (App hogi toh khulegi, nahi toh fallback website par rok lega)
+                const packageName = "com.myprostream.myprostreamapp";
+                const currentUrl = encodeURIComponent(window.location.href);
+                const intentUrl = `intent://watch?video=${videoId}#Intent;scheme=prostreamer;package=${packageName};S.browser_fallback_url=${currentUrl};end`;
+
+                // Auto Trigger Intent
+                window.location.href = intentUrl;
             }
         })();
     </script>
@@ -29,7 +34,7 @@
 
         /* Shared Video Banner (If Query Param Exists) */
         .video-alert { display: none; background: #1a1a24; border: 1px solid #00f2ea; border-radius: 12px; padding: 15px; max-width: 500px; margin: 20px auto 0; font-size: 14px; }
-        .video-alert a { color: #00f2ea; font-weight: bold; text-decoration: underline; margin-left: 5px; }
+        .video-alert a { color: #00f2ea; font-weight: bold; text-decoration: underline; margin-left: 5px; cursor: pointer; }
 
         /* Hero Section */
         .hero { padding: 30px 20px 40px; max-width: 600px; margin: 0 auto; }
@@ -71,8 +76,8 @@
 
 <!-- Dynamic Banner if shared link contains video ID -->
 <div id="videoBanner" class="video-alert">
-    <span>🎬 Opening Shared Video... If app doesn't open automatically,</span>
-    <a id="openAppBtn" href="#">Click Here to Open App</a>
+    <span>🎬 Shared Video Found! App install nahi hai toh neeche se download karein, ya dubara try karne ke liye</span>
+    <a id="openAppBtn" href="#">Click Here</a>
 </div>
 
 <div class="hero">
@@ -130,15 +135,20 @@
 </footer>
 
 <script>
-    // Show Alert Banner if video query parameter exists
     const urlParams = new URLSearchParams(window.location.search);
     const videoId = urlParams.get('video');
+    
     if (videoId) {
         const banner = document.getElementById('videoBanner');
         const openBtn = document.getElementById('openAppBtn');
+        
         if (banner && openBtn) {
             banner.style.display = 'block';
-            openBtn.href = "prostreamer://watch?video=" + videoId;
+            
+            // Manual click fallback link if user wants to retry opening app
+            const packageName = "com.myprostream.myprostreamapp";
+            const currentUrl = encodeURIComponent(window.location.href);
+            openBtn.href = `intent://watch?video=${videoId}#Intent;scheme=prostreamer;package=${packageName};S.browser_fallback_url=${currentUrl};end`;
         }
     }
 </script>
