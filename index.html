@@ -4,30 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PRO STREAMER V3 - Official Download Page</title>
-    
-    <!-- 🚀 AUTO-REDIRECT TO APP SCRIPT -->
-    <script>
-        (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const videoId = urlParams.get('video');
-            
-            if (videoId) {
-                // Background me direct app trigger launch karein
-                window.location.href = "prostreamer://watch?video=" + videoId;
-            }
-        })();
-    </script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0a0a0c; color: #ffffff; text-align: center; padding-bottom: 50px; }
+        body { background-color: #0a0a0c; color: #ffffff; text-align: center; padding-bottom: 50px; min-height: 100vh; }
         
         /* Header */
         header { padding: 20px; background: #121216; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto; }
         .logo { font-size: 20px; font-weight: bold; color: #00f2ea; letter-spacing: 1px; }
         .ver-tag { background: #ff2d55; color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: bold; }
 
-        /* Shared Video Banner (If Query Param Exists) */
+        /* Shared Video Banner */
         .video-alert { display: none; background: #1a1a24; border: 1px solid #00f2ea; border-radius: 12px; padding: 15px; max-width: 500px; margin: 20px auto 0; font-size: 14px; }
         .video-alert a { color: #00f2ea; font-weight: bold; text-decoration: underline; margin-left: 5px; }
 
@@ -69,10 +56,9 @@
     <span class="ver-tag">V3.0.0</span>
 </header>
 
-<!-- Dynamic Banner if shared link contains video ID -->
+<!-- Dynamic Banner for Shared Videos -->
 <div id="videoBanner" class="video-alert">
-    <span>🎬 Opening Shared Video... If app doesn't open automatically,</span>
-    <a id="openAppBtn" href="#">Click Here to Open App</a>
+    <span>🎬 App install nahi hai? Pehle APK download karein:</span>
 </div>
 
 <div class="hero">
@@ -110,6 +96,52 @@
 </div>
 
 <div class="features">
+    <h3>🔥 Features</h3>
+    <div class="feature-item">
+        <span class="feature-icon">🚀</span>
+        <span class="feature-text">Ultra Fast Video Player & No Buffering</span>
+    </div>
+    <div class="feature-item">
+        <span class="feature-icon">📁</span>
+        <span class="feature-text">Multiple Categories & Smart Search Bar</span>
+    </div>
+    <div class="feature-item">
+        <span class="feature-icon">🔒</span>
+        <span class="feature-text">100% Safe, Secure & No Registration Required</span>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 PRO STREAMER V3. All rights reserved.
+</footer>
+
+<!-- 🚀 SMART AUTO-TRY AND FALLBACK SCRIPT -->
+<script>
+    (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoId = urlParams.get('video');
+        
+        if (videoId) {
+            const banner = document.getElementById('videoBanner');
+            if (banner) banner.style.display = 'block';
+
+            // Try opening app via custom scheme using iframe (Prevents Blank Screen/Freeze)
+            const start = Date.now();
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = "prostreamer://watch?video=" + videoId;
+            document.body.appendChild(iframe);
+
+            // Clean up iframe after trial
+            setTimeout(function() {
+                document.body.removeChild(iframe);
+            }, 2000);
+        }
+    })();
+</script>
+
+</body>
+</html>
     <h3>🔥 Features</h3>
     <div class="feature-item">
         <span class="feature-icon">🚀</span>
