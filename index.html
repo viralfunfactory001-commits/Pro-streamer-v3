@@ -142,38 +142,3 @@
 
 </body>
 </html>
-    <h3>🔥 Features</h3>
-    <div class="feature-item">
-        <span class="feature-icon">🚀</span>
-        <span class="feature-text">Ultra Fast Video Player & No Buffering</span>
-    </div>
-    <div class="feature-item">
-        <span class="feature-icon">📁</span>
-        <span class="feature-text">Multiple Categories & Smart Search Bar</span>
-    </div>
-    <div class="feature-item">
-        <span class="feature-icon">🔒</span>
-        <span class="feature-text">100% Safe, Secure & No Registration Required</span>
-    </div>
-</div>
-
-<footer>
-    &copy; 2026 PRO STREAMER V3. All rights reserved.
-</footer>
-
-<script>
-    // Show Alert Banner if video query parameter exists
-    const urlParams = new URLSearchParams(window.location.search);
-    const videoId = urlParams.get('video');
-    if (videoId) {
-        const banner = document.getElementById('videoBanner');
-        const openBtn = document.getElementById('openAppBtn');
-        if (banner && openBtn) {
-            banner.style.display = 'block';
-            openBtn.href = "prostreamer://watch?video=" + videoId;
-        }
-    }
-</script>
-
-</body>
-</html>
