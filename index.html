@@ -56,11 +56,11 @@
     <span class="ver-tag">V3.0.0</span>
 </header>
 
-<!-- Dynamic Banner if shared link contains video ID -->
+<!-- Dynamic Video Shared Alert -->
 <div id="videoBanner" class="video-alert">
-    <div>🎬 <b>Shared Video Found!</b></div>
-    <div style="color: #aaa; margin-top: 5px; font-size: 13px;">If you have the app installed, tap below:</div>
-    <a id="openAppBtn" href="#" class="btn-open-app">▶️ Open Video in Installed App</a>
+    <div id="bannerTitle">🎬 <b>Opening App...</b></div>
+    <div id="bannerDesc" style="color: #aaa; margin-top: 5px; font-size: 13px;">Checking if Pro Streamer V3 is installed...</div>
+    <a id="openAppBtn" href="#" class="btn-open-app">▶️ Try Manual Open in App</a>
 </div>
 
 <div class="hero">
@@ -117,28 +117,40 @@
     &copy; 2026 PRO STREAMER V3. All rights reserved.
 </footer>
 
+<!-- 🚀 SAFE LAUNCH SCRIPT (No Page Freezing / Works Post-Uninstall) -->
 <script>
-    window.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener("DOMContentLoaded", function() {
         const urlParams = new URLSearchParams(window.location.search);
         const videoId = urlParams.get('video');
         
         if (videoId) {
             const banner = document.getElementById('videoBanner');
+            const title = document.getElementById('bannerTitle');
+            const desc = document.getElementById('bannerDesc');
             const openBtn = document.getElementById('openAppBtn');
             
-            if (banner && openBtn) {
-                banner.style.display = 'block';
-                
-                // Set Intent Link on Open Button
-                const packageName = "com.myprostream.myprostreamapp";
-                const currentUrl = encodeURIComponent(window.location.href);
-                openBtn.href = `intent://watch?video=${videoId}#Intent;scheme=prostreamer;package=${packageName};S.browser_fallback_url=${currentUrl};end`;
+            if (banner) banner.style.display = 'block';
 
-                // Try silent trigger only after page is completely visible
-                setTimeout(() => {
-                    window.location.href = openBtn.href;
-                }, 500);
-            }
+            const appSchemeUrl = "prostreamer://watch?video=" + videoId;
+            if (openBtn) openBtn.href = appSchemeUrl;
+
+            // Deep link trial via iframe (Doesn't freeze or navigate browser away)
+            const now = Date.now();
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = appSchemeUrl;
+            document.body.appendChild(iframe);
+
+            // Check if user was redirected to app
+            setTimeout(function() {
+                document.body.removeChild(iframe);
+                
+                // If browser did not lose focus, App is NOT installed
+                if (Date.now() - now < 2000) {
+                    if (title) title.innerHTML = "⚠️ <b>App Not Installed!</b>";
+                    if (desc) desc.innerText = "Please download and install the APK below to watch this video.";
+                }
+            }, 1200);
         }
     });
 </script>
