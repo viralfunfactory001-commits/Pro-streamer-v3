@@ -4,6 +4,6 @@
     "namespace": "android_app",
     "package_name": "com.myprostream.myprostreamapp",
     "sha256_cert_fingerprints":
-      ["YOUR_APP_SHA256_FINGERPRINT_HERE"]
+      ["sha256:7c21573381b6c99c9294a89f04fdab09f968a0211f6c83adcf7c7610aba622dc"]
   }
 }]
