@@ -4,37 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PRO STREAMER V3 - Official Download Page</title>
-    
-    <!-- 🚀 SMART ANDROID INTENT SCRIPT (No Blank Screen) -->
-    <script>
-        (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const videoId = urlParams.get('video');
-            
-            if (videoId) {
-                // Android Intent URL (App hogi toh khulegi, nahi toh fallback website par rok lega)
-                const packageName = "com.myprostream.myprostreamapp";
-                const currentUrl = encodeURIComponent(window.location.href);
-                const intentUrl = `intent://watch?video=${videoId}#Intent;scheme=prostreamer;package=${packageName};S.browser_fallback_url=${currentUrl};end`;
-
-                // Auto Trigger Intent
-                window.location.href = intentUrl;
-            }
-        })();
-    </script>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0a0a0c; color: #ffffff; text-align: center; padding-bottom: 50px; }
+        body { background-color: #0a0a0c; color: #ffffff; text-align: center; padding-bottom: 50px; min-height: 100vh; }
         
         /* Header */
         header { padding: 20px; background: #121216; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto; }
         .logo { font-size: 20px; font-weight: bold; color: #00f2ea; letter-spacing: 1px; }
         .ver-tag { background: #ff2d55; color: #fff; font-size: 11px; padding: 3px 8px; border-radius: 12px; font-weight: bold; }
 
-        /* Shared Video Banner (If Query Param Exists) */
-        .video-alert { display: none; background: #1a1a24; border: 1px solid #00f2ea; border-radius: 12px; padding: 15px; max-width: 500px; margin: 20px auto 0; font-size: 14px; }
-        .video-alert a { color: #00f2ea; font-weight: bold; text-decoration: underline; margin-left: 5px; cursor: pointer; }
+        /* Shared Video Alert Bar */
+        .video-alert { display: none; background: #1a1a24; border: 1px solid #00f2ea; border-radius: 14px; padding: 15px; max-width: 500px; margin: 20px auto 0; font-size: 14px; }
+        .btn-open-app { display: inline-block; margin-top: 10px; background: #00f2ea; color: #000; font-weight: bold; text-decoration: none; padding: 10px 20px; border-radius: 20px; font-size: 14px; }
 
         /* Hero Section */
         .hero { padding: 30px 20px 40px; max-width: 600px; margin: 0 auto; }
@@ -43,8 +25,8 @@
         p.subtitle { color: #aaa; font-size: 14px; margin-bottom: 30px; line-height: 1.5; }
 
         /* Download Button */
-        .btn-download { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: #00f2ea; color: #000; font-size: 18px; font-weight: bold; text-decoration: none; padding: 16px 32px; border-radius: 30px; box-shadow: 0 5px 20px rgba(0, 242, 234, 0.4); transition: 0.3s; width: 100%; max-width: 320px; }
-        .btn-download:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0, 242, 234, 0.6); }
+        .btn-download { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: #ff2d55; color: #fff; font-size: 18px; font-weight: bold; text-decoration: none; padding: 16px 32px; border-radius: 30px; box-shadow: 0 5px 20px rgba(255, 45, 85, 0.4); transition: 0.3s; width: 100%; max-width: 320px; }
+        .btn-download:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255, 45, 85, 0.6); }
 
         /* Extra Links */
         .secondary-links { margin-top: 20px; display: flex; justify-content: center; gap: 15px; }
@@ -76,8 +58,9 @@
 
 <!-- Dynamic Banner if shared link contains video ID -->
 <div id="videoBanner" class="video-alert">
-    <span>🎬 Shared Video Found! App install nahi hai toh neeche se download karein, ya dubara try karne ke liye</span>
-    <a id="openAppBtn" href="#">Click Here</a>
+    <div>🎬 <b>Shared Video Found!</b></div>
+    <div style="color: #aaa; margin-top: 5px; font-size: 13px;">If you have the app installed, tap below:</div>
+    <a id="openAppBtn" href="#" class="btn-open-app">▶️ Open Video in Installed App</a>
 </div>
 
 <div class="hero">
@@ -87,7 +70,7 @@
     
     <!-- 🔴 APK DOWNLOAD LINK -->
     <a href="https://github.com/viralfunfactory001-commits/Pro-streamer-v3/releases/download/v.0.0.1/Pro.Stream.V3.apk" class="btn-download" download>
-        <span>⚡ Download APK</span>
+        <span>⚡ Download APK File</span>
     </a>
 
     <div class="secondary-links">
@@ -135,22 +118,29 @@
 </footer>
 
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const videoId = urlParams.get('video');
-    
-    if (videoId) {
-        const banner = document.getElementById('videoBanner');
-        const openBtn = document.getElementById('openAppBtn');
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoId = urlParams.get('video');
         
-        if (banner && openBtn) {
-            banner.style.display = 'block';
+        if (videoId) {
+            const banner = document.getElementById('videoBanner');
+            const openBtn = document.getElementById('openAppBtn');
             
-            // Manual click fallback link if user wants to retry opening app
-            const packageName = "com.myprostream.myprostreamapp";
-            const currentUrl = encodeURIComponent(window.location.href);
-            openBtn.href = `intent://watch?video=${videoId}#Intent;scheme=prostreamer;package=${packageName};S.browser_fallback_url=${currentUrl};end`;
+            if (banner && openBtn) {
+                banner.style.display = 'block';
+                
+                // Set Intent Link on Open Button
+                const packageName = "com.myprostream.myprostreamapp";
+                const currentUrl = encodeURIComponent(window.location.href);
+                openBtn.href = `intent://watch?video=${videoId}#Intent;scheme=prostreamer;package=${packageName};S.browser_fallback_url=${currentUrl};end`;
+
+                // Try silent trigger only after page is completely visible
+                setTimeout(() => {
+                    window.location.href = openBtn.href;
+                }, 500);
+            }
         }
-    }
+    });
 </script>
 
 </body>
